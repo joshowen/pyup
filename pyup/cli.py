@@ -45,9 +45,6 @@ def main(repo, user_token, bot_token, key, provider, branch, initial, log):
     bot.update(branch=branch, initial=initial)
 
 
-if __name__ == '__main__':
-    main()
-
 
 class CLIBot(Bot):
 
@@ -88,3 +85,7 @@ class CLIRequirementFile(RequirementFile):
         bar = tqdm(self.content.splitlines()[lineno:], desc="Processing {}".format(self.path))
         for item in bar:
             yield item
+
+
+if __name__ == '__main__':
+    main()
