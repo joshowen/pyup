@@ -13,18 +13,15 @@ logger = logging.getLogger(__name__)
 
 
 class Provider(object):
-    def __init__(self, bundle, integration=False, url=None):
+    def __init__(self, bundle, integration=False):
         self.bundle = bundle
         self.integration = integration
-        self.url = url
 
     @classmethod
     def is_same_user(cls, this, that):
         return this.login == that.login
 
     def _api(self, token):
-        if self.url:
-            return Github(token, base_url=self.url, timeout=50)
         return Github(token, timeout=50)
 
     def get_user(self, token):
@@ -75,6 +72,7 @@ class Provider(object):
 
     def get_file(self, repo, path, branch):
         logger.info("Getting file at {} for branch {}".format(path, branch))
+        # if the path has no root, add it
         try:
             contentfile = repo.get_contents(quote(path), ref=branch)
             return contentfile.decoded_content.decode("utf-8"), contentfile

@@ -3,9 +3,7 @@
   {% for version, log in changelog.items() %}
   {% if log %}
    ### {{ version }}
-   ```
-   {{ log }}
-   ```
+   ```{{ log }}```
    {% endif %}
   {% endfor %}
 </details>

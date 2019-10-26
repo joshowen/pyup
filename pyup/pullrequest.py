@@ -75,7 +75,7 @@ class PullRequest(object):
 
     @property
     def is_open(self):
-        return self.state in ("open", "opened")
+        return self.state == "open"
 
     @property
     def is_valid(self):

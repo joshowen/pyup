@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 class Bot(object):
     def __init__(self, repo, user_token, bot_token=None,
                  provider=GithubProvider, bundle=RequirementsBundle, config=Config,
-                 integration=False, provider_url=None):
+                 integration=False):
         self.req_bundle = bundle()
-        self.provider = provider(self.req_bundle, integration, provider_url)
+        self.provider = provider(self.req_bundle, integration)
         self.user_token = user_token
         self.bot_token = bot_token
         self.fetched_files = []
@@ -286,7 +286,7 @@ class Bot(object):
 
         # it's impossible to get the bots login if this is an integration, just check that
         # there's only one commit in the commit history.
-        if self.integration or getattr(self.provider, 'name', '') == 'gitlab':
+        if self.integration:
             return len(committer_set) == 1
 
         # check that there's exactly one committer in this PRs commit history and

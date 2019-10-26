@@ -14,15 +14,8 @@ class BadTokenError(Exception):
 
 
 class Provider(object):
-    name = 'gitlab'
-
-    class Committer(object):
-        def __init__(self, login):
-            self.login = login
-
-    def __init__(self, bundle, intergration=False, url=None):
+    def __init__(self, bundle, intergration=False):
         self.bundle = bundle
-        self.url = url
         if intergration:
             raise NotImplementedError(
                 'Gitlab provider does not support integration mode')
@@ -34,7 +27,7 @@ class Provider(object):
     def _api(self, token):
         parts = token.split('@')
         if len(parts) == 1:
-            host = self.url or 'https://gitlab.com'
+            host = 'https://gitlab.com'
             auth = parts[0]
         elif len(parts) == 2:
             auth, host = parts
@@ -151,21 +144,12 @@ class Provider(object):
         # TODO: committer
         f.save(branch=branch, commit_message=commit_message)
 
-    def get_pull_request_committer(self, repo, pull_request):
-        return [
-            self.Committer(participant['username'])
-            for participant in repo.mergerequests.get(pull_request.number).participants()
-        ]
-
-    def close_pull_request(self, bot_repo, user_repo, pull_request, comment, prefix):
-        mr = user_repo.mergerequests.get(pull_request.number)
+    def close_pull_request(self, bot_repo, user_repo, mr, comment, prefix):
         mr.state_event = 'close'
         mr.save()
         mr.notes.create({'body': comment})
 
-        source_branch = mr.changes()['source_branch']
-        logger.info("Deleting source branch {}".format(source_branch))
-        self.delete_branch(user_repo, source_branch, prefix)
+        self.delete_branch(user_repo, mr.source_branch, prefix)
 
     def _merge_merge_request(self, mr, config):
         mr.merge(should_remove_source_branch=config.gitlab.should_remove_source_branch,
@@ -230,7 +214,7 @@ class Provider(object):
 
     def iter_issues(self, repo, creator):
         # TODO: handle creator
-        for issue in repo.mergerequests.list(state='opened', all=True):
+        for issue in repo.issues.list():
             yield self.bundle.get_pull_request_class()(
                 state=issue.state,
                 title=issue.title,

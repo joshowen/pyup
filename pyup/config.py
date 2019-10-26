@@ -10,14 +10,13 @@ import re
 
 SCHEDULE_REGEX = re.compile(
     # has to begin with every
-    r"^every "
+    "^every "
     # followed by day/month
     "((day|month)$"
     # or week/two weeks
     "|(week|two weeks))"
     # with an optional weekday
-    "( on (monday|tuesday|wednesday|thursday|friday|saturday|sunday))?",
-    re.IGNORECASE
+    "( on (monday|tuesday|wednesday|thursday|friday|saturday|sunday))?"
 )
 
 
