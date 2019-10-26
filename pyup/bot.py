@@ -282,7 +282,7 @@ class Bot(object):
             self.user_repo,
             pr)
         # flatten the list and remove duplicates
-        committer_set = set([c.login for c in committer if c])
+        committer_set = set([c.login for c in committer if c is not None])
 
         # it's impossible to get the bots login if this is an integration, just check that
         # there's only one commit in the commit history.
