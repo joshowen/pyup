@@ -21,7 +21,7 @@ def _extract_releases(response, index_server):
 def fetch_package(name, index_server=None):
     url = index_server + name if index_server else \
         "https://pypi.org/pypi/{name}/json".format(name=name)
-    r = requests.get(url, timeout=3)
+    r = requests.get(url, timeout=10)
     if r.status_code != 200:
         return None
     return Package(name, _extract_releases(r, index_server))
