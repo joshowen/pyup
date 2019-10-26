@@ -2,12 +2,13 @@
 Credits
 =======
 
-Development Lead
+Development Leads
 ----------------
 
 * Jannis Gebauer <ja.geb@me.com>
+* Justin Womersley <justinwomersley@gmail.com>
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Christophe Lecointe

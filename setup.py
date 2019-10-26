@@ -19,14 +19,13 @@ requirements = [
     "pygithub>=1.43.3",
     "click",
     "tqdm",
-    "pyyaml",
+    "pyyaml>=4.2b4",
     "packaging",
     "six",
     "python-gitlab>=1.3.0",
     "dparse>=0.4",
     "safety",
-    "jinja2>=2.3",
-    "beautifulsoup4"
+    "jinja2>=2.3"
 ]
 
 test_requirements = [
@@ -37,9 +36,10 @@ test_requirements = [
 
 setup(
     name='pyupio',
-    version='1.0.2',
+    version='1.0.3',
     description="A tool to update all your projects requirements",
     long_description=readme + '\n\n' + history,
+    long_description_content_type="text/markdown",
     author="Jannis Gebauer",
     author_email='jay@pyup.io',
     url='https://github.com/pyupio/pyup',
